@@ -6,21 +6,20 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: self-hosted  # <--- 중요! 우리 집 서버(upc)에서 실행하라는 뜻
+    runs-on: self-hosted
 
     steps:
-    - name: 코드 가져오기 (Checkout)
+    - name: 코드 가져오기
       uses: actions/checkout@v3
 
-    - name: 도커 이미지 빌드 (Build)
+    - name: 도커 이미지 빌드 (이름 변경: finbot)
       run: |
-        # 이름 변경: my-web -> finbot
         docker build -t 192.168.1.18/demo/finbot:v1 .
 
-    - name: Harbor 로그인 (Login)
+    - name: Harbor 로그인
       run: |
         echo "Harbor12345!" | docker login 192.168.1.18 -u admin --password-stdin
 
-    - name: Harbor로 발사 (Push)
+    - name: Harbor로 발사
       run: |
         docker push 192.168.1.18/demo/finbot:v1
