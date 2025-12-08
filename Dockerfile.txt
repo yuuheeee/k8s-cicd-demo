@@ -1,0 +1,5 @@
+# 가벼운 웹 서버(Nginx)를 사용
+FROM nginx:alpine
+
+# 우리가 만든 index.html을 웹 서버 안으로 복사
+COPY index.html /usr/share/nginx/html/index.html
