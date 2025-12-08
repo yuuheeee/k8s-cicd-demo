@@ -15,12 +15,13 @@ spec:
     spec:
       containers:
       - name: finbot
-        image: 192.168.1.18/demo/finbot:v1  # 이미지 이름 변경
+        # 이미지 태그를 finbot으로 변경
+        image: 192.168.1.18/demo/finbot:v1
         ports:
         - containerPort: 8080
-        # ▼▼▼ [시나리오 6번 필수] HPA를 위한 리소스 설정 ▼▼▼
+        # 오토스케일링(HPA)을 위해 CPU 제한 설정 필수
         resources:
           requests:
-            cpu: "100m"   # 최소 0.1 코어 보장
+            cpu: "100m"
           limits:
-            cpu: "200m"   # 최대 0.2 코어 제한
+            cpu: "200m"
