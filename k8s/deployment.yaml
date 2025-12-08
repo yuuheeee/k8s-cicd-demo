@@ -1,20 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-web-deploy
+  name: finbot-deploy
   namespace: default
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: my-web
+      app: finbot
   template:
     metadata:
       labels:
-        app: my-web
+        app: finbot
     spec:
       containers:
-      - name: my-web
-        image: 192.168.1.18/demo/my-web:v1  # 아까 만든 이미지 주소
+      - name: finbot
+        image: 192.168.1.18/demo/finbot:v1  # 이미지 이름 변경
         ports:
-        - containerPort: 80
+        - containerPort: 8080
+        # ▼▼▼ [시나리오 6번 필수] HPA를 위한 리소스 설정 ▼▼▼
+        resources:
+          requests:
+            cpu: "100m"   # 최소 0.1 코어 보장
+          limits:
+            cpu: "200m"   # 최대 0.2 코어 제한
