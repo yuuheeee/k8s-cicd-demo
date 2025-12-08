@@ -1,0 +1,27 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    runs-on: self-hosted  # <--- 중요! 우리 집 서버(upc)에서 실행하라는 뜻
+
+    steps:
+    - name: 코드 가져오기 (Checkout)
+      uses: actions/checkout@v3
+
+    - name: 도커 이미지 빌드 (Build)
+      run: |
+        docker build -t 192.168.1.18/demo/my-web:v1 .
+
+    - name: Harbor 로그인 (Login)
+      run: |
+        # 보안상 비밀번호는 GitHub Secrets로 관리하는 게 정석이지만, 
+        # 실습 편의상 직접 입력합니다. (실무에선 절대 금지!)
+        echo "Harbor12345!" | docker login 192.168.1.18 -u admin --password-stdin
+
+    - name: Harbor로 발사 (Push)
+      run: |
+        docker push 192.168.1.18/demo/my-web:v1
