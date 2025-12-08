@@ -9,5 +9,5 @@ spec:
     app: finbot
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 8080  # 파이썬 앱 포트
+      port: 80        # 외부 접속 포트 (브라우저용)
+      targetPort: 8080 # 내부 연결 포트 (Flask용)
