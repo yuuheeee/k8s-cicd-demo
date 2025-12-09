@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-# 금융권 스타일 로그 포맷 설정 (Loki 분석용)
+# 금융권 스타일 로그 포맷 설정 (Loki 분석용) 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
 @app.route('/')
