@@ -11,7 +11,7 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
 # --- [설정] 현재 버전 및 상태 ---
-SYSTEM_VERSION = "v3.0 (New Dashboard)"
+SYSTEM_VERSION = "v4.0 (New Dashboard)"
 LAST_UPDATE = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 SYSTEM_STATUS = "Normal (Active)"
 POD_NAME = os.getenv("HOSTNAME", "finbot-worker-node-1")
