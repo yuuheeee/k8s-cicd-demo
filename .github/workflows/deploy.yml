@@ -14,7 +14,7 @@ jobs:
 
     - name: 도커 이미지 빌드
       run: |
-        docker build -t 192.168.1.18/demo/finbot:v3
+        docker build -t 192.168.1.18/demo/finbot:v3 .
 
     - name: Harbor 로그인
       run: |
