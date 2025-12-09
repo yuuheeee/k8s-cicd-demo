@@ -12,9 +12,9 @@ jobs:
     - name: 코드 가져오기
       uses: actions/checkout@v3
 
-    - name: 도커 이미지 빌드 (이름 변경: finbot)
+    - name: 도커 이미지 빌드 (이름 변경: v2)
       run: |
-        docker build -t 192.168.1.18/demo/finbot:v1 .
+        docker build -t 192.168.1.18/demo/finbot:v2 .  # <--- v2로 변경
 
     - name: Harbor 로그인
       run: |
@@ -22,4 +22,4 @@ jobs:
 
     - name: Harbor로 발사
       run: |
-        docker push 192.168.1.18/demo/finbot:v1
+        docker push 192.168.1.18/demo/finbot:v2        # <--- v2로 변경
