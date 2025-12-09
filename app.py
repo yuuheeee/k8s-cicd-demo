@@ -14,9 +14,7 @@ def home():
     # 웹 브라우저 접속 시 보여줄 화면
     return """
     <div style="text-align: center; margin-top: 50px; font-family: Arial;">
-        <h1>🏦 NH AI Financial Chatbot v1.0</h1>
-        <p style="color: green; font-weight: bold;">Status: System Healthy (Active)</p>
-        <p>챗봇 모델이 정상적으로 로드되었습니다.</p>
+        <h1>🚀 NH AI Financial Chatbot v2.0 (Upgrade)</h1> <p style="color: blue; font-weight: bold;">Status: System Healthy (Active)</p> <p>새로운 모델이 적용되었습니다.</p>
     </div>
     """
 
