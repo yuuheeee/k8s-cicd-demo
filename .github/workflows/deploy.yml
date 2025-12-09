@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - name: 코드 가져오기
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: 도커 이미지 빌드
       run: |
