@@ -7,7 +7,7 @@ import datetime
 
 app = Flask(__name__)
 
-# 금융권 로그 설정
+# 금융권 로그 설정 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
 # --- [설정] 현재 버전 및 상태 ---
