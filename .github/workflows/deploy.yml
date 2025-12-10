@@ -12,14 +12,37 @@ jobs:
     - name: 코드 가져오기
       uses: actions/checkout@v3
 
+    # [1] 빌드는 외부 IP(1.18)로 합니다 (기존 유지)
     - name: 도커 이미지 빌드
       run: |
         docker build -t 192.168.1.18/demo/finbot:v3 .
 
+    # [2] 로그인은 외부 IP(1.18)로 합니다 (기존 유지)
     - name: Harbor 로그인
       run: |
         echo "Harbor12345!" | docker login 192.168.1.18 -u admin --password-stdin
 
+    # [3] 푸시도 외부 IP(1.18)로 합니다 (기존 유지)
     - name: Harbor로 발사
       run: |
         docker push 192.168.1.18/demo/finbot:v3
+
+    # ▼▼▼ [여기부터가 핵심!] 친구분에게 없던 부분입니다 ▼▼▼
+    # 설명: 쿠버네티스가 쓸 수 있게 "내부 IP(10.20)"로 주소를 바꿔서 저장해줍니다.
+    - name: K8s 매니페스트 주소 변경 (외부IP -> 내부IP)
+      run: |
+        # 1. 꼬임 방지: 무조건 원격 저장소 최신 상태로 초기화
+        git fetch origin main
+        git reset --hard origin/main
+        
+        # 2. 주소 바꿔치기 (sed 명령어)
+        # "192.168.1.18"(외부)을 찾아서 "192.168.10.20"(내부)으로 바꿉니다.
+        # ※ 만약 친구분 내부 IP가 10.20이 아니라면 저 숫자만 고치세요!
+        sed -i "s|image: 192.168.1.18/|image: 192.168.10.20/|g" deployment.yaml
+        
+        # 3. 변경사항 저장하고 GitHub에 올리기
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'actions@github.com'
+        git add deployment.yaml
+        git commit -m "Fix image URL to Internal IP for K8s"
+        git push origin main
