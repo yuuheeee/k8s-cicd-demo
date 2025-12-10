@@ -11,38 +11,43 @@ jobs:
     steps:
     - name: 코드 가져오기
       uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }} # (권한 문제 방지용 명시)
 
-    # [1] 빌드는 외부 IP(1.18)로 합니다 (기존 유지)
+    # [1] 빌드 (외부 IP 1.18)
     - name: 도커 이미지 빌드
       run: |
         docker build -t 192.168.1.18/demo/finbot:v3 .
 
-    # [2] 로그인은 외부 IP(1.18)로 합니다 (기존 유지)
+    # [2] 로그인 (외부 IP 1.18)
     - name: Harbor 로그인
       run: |
         echo "Harbor12345!" | docker login 192.168.1.18 -u admin --password-stdin
 
-    # [3] 푸시도 외부 IP(1.18)로 합니다 (기존 유지)
+    # [3] 푸시 (외부 IP 1.18)
     - name: Harbor로 발사
       run: |
         docker push 192.168.1.18/demo/finbot:v3
 
-    # ▼▼▼ [여기부터가 핵심!] 친구분에게 없던 부분입니다 ▼▼▼
-    # 설명: 쿠버네티스가 쓸 수 있게 "내부 IP(10.20)"로 주소를 바꿔서 저장해줍니다.
+    # ▼▼▼ [수정된 핵심 파트] ▼▼▼
     - name: K8s 매니페스트 주소 변경 (외부IP -> 내부IP)
       run: |
-        # 1. 꼬임 방지: 무조건 원격 저장소 최신 상태로 초기화
+        # 1. 최신 코드 상태 확인
         git fetch origin main
         git reset --hard origin/main
         
-        # 2. 주소 바꿔치기 (sed 명령어)
-        # "192.168.1.18"(외부)을 찾아서 "192.168.10.20"(내부)으로 바꿉니다.
-        # ※ 만약 친구분 내부 IP가 10.20이 아니라면 저 숫자만 고치세요!
-        sed -i "s|image: 192.168.1.18/|image: 192.168.10.20/|g" deployment.yaml
-        
-        # 3. 변경사항 저장하고 GitHub에 올리기
+        # 2. 주소 바꿔치기 (sed)
+        # deployment.yaml 파일 안에 있는 1.18 주소를 10.20(내부IP)으로 변경
+        sed -i "s|image: 192.168.1.18/|image: 192.168.10.20/|g" k8s/deployment.yaml
+        # (주의: 파일 경로가 k8s/deployment.yaml 인지, 그냥 deployment.yaml 인지 확인하세요!)
+
+        # 3. 변경사항 저장 및 Push (무한 루프 방지)
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
-        git add deployment.yaml
-        git commit -m "Fix image URL to Internal IP for K8s"
+        git add .
+        
+        # ⚠️ 중요: 커밋 메시지에 [skip ci]를 꼭 넣어야 합니다!
+        # "변경 사항이 없으면 에러 내지 말고 넘어가라"는 || echo 처리도 추가
+        git commit -m "Update Manifest IP for Internal Network [skip ci]" || echo "No changes to commit"
+        
         git push origin main
