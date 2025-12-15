@@ -8,14 +8,24 @@ spec:
   selector:
     matchLabels:
       app: finbot
+  strategy: # ⭐⭐ 롤링 업데이트 전략을 명시적으로 추가 ⭐⭐
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%       # Pod 업데이트 중 기존 Pod를 얼마나 초과하여 새 Pod를 생성할지 (%)
+      maxUnavailable: 25% # Pod 업데이트 중 기존 Pod를 얼마나 종료할 수 있는지 (%)
   template:
     metadata:
       labels:
         app: finbot
+        app.kubernetes.io/version: v4.0 # ⭐⭐ Grafana 모니터링을 위한 버전 레이블 추가 ⭐⭐
+      annotations: # ⭐⭐ Prometheus가 Pod 메트릭을 스크랩할 수 있도록 Annotation 추가 (Prometheus Operator 등 사용 시) ⭐⭐
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
     spec:
       containers:
       - name: finbot
-        image: 192.168.10.20/demo/finbot:v3
+        image: 192.168.1.18/demo/finbot:v4 # ⭐⭐ v4 이미지 태그 사용 ⭐⭐
         ports:
         - containerPort: 8080
         # 오토스케일링(HPA)을 위해 CPU 제한 설정 필수
