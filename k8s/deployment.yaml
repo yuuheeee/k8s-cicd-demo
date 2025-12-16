@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: finbot
-        image: 192.168.1.18/demo/finbot:v12 # ⭐⭐ v4 이미지 태그 사용 ⭐⭐
+        image: 192.168.1.18/demo/finbot:v15
         ports:
         - containerPort: 8080
         # 오토스케일링(HPA)을 위해 CPU 제한 설정 필수
