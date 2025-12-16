@@ -5,6 +5,16 @@ metadata:
   namespace: default
 spec:
   replicas: 2
+
+  # 롤링 업데이트(무중단 배포) 전략을 정의합니다.
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # **핵심**: 새 Pod가 완전히 뜰 때까지 기존 Pod는 절대 종료하지 않음 (오류 0% 목표)
+      maxUnavailable: 0
+
+      # **핵심**: 새로운 버전의 Pod를 한 개 더 추가로 생성할 수 있도록 허용
+      maxSurge: 1
   selector:
     matchLabels:
       app: finbot
