@@ -14,7 +14,7 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
 # --- [설정] 버전 정보 (롤링 업데이트 확인용) ---
-SYSTEM_VERSION = "v4.0 (Latest Security Patch)" # ⭐ 업데이트할 버전
+SYSTEM_VERSION = "v5.0 (Latest Security Patch)" # ⭐ 업데이트할 버전
 LAST_UPDATE = datetime.datetime.now().strftime("%Y-%m-%d")
 
 # --- [Prometheus 메트릭] ---
@@ -132,7 +132,7 @@ def chat():
     elif "오류" in user_msg:
         return jsonify({"response": "⚠️ <strong>시스템 알림</strong><br>일시적인 오류입니다."}), 500
     else:
-        return jsonify({"response": f"🤖 <strong>[AI v4.0]</strong><br>'{user_msg}'에 대해 안내해 드리겠습니다."})
+        return jsonify({"response": f"🤖 <strong>[AI v5.0]</strong><br>'{user_msg}'에 대해 안내해 드리겠습니다."})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
