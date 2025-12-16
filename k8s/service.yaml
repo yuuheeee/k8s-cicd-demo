@@ -4,10 +4,10 @@ metadata:
   name: finbot-svc
   namespace: default
 spec:
-  type: LoadBalancer
+  type: LoadBalancer # 또는 NodePort (기존에 쓰던 걸로 유지)
   selector:
     app: finbot
   ports:
     - protocol: TCP
-      port: 80        # 외부 접속 포트 (브라우저용)
-      targetPort: 8080 # 내부 연결 포트 (Flask용)
+      port: 80       # 서비스가 열어줄 포트
+      targetPort: 80 # Nginx(컨테이너)가 듣고 있는 포트

@@ -8,29 +8,16 @@ spec:
   selector:
     matchLabels:
       app: finbot
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
   template:
     metadata:
       labels:
         app: finbot
-        app.kubernetes.io/version: v5.0  # 👈 여기는 v5.0으로 수정 (Grafana용)
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
-        prometheus.io/path: "/metrics"
     spec:
+      imagePullSecrets:
+      - name: regcred
       containers:
       - name: finbot
-        image: 192.168.1.18/demo/finbot:v15
+        # 👇 [중요] 님의 Harbor 주소로 변경! (v1은 젠킨스가 나중에 v17, v18로 바꿀겁니다)
+        image: 192.168.1.18/demo/finbot:v1
         ports:
-        - containerPort: 8080
-        # 오토스케일링(HPA)을 위해 CPU 제한 설정 필수
-        resources:
-          requests:
-            cpu: "100m"
-          limits:
-            cpu: "200m"
+        - containerPort: 80  # Nginx는 80번 포트를 씁니다!
