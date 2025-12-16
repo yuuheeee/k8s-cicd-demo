@@ -21,3 +21,9 @@ spec:
         image: 192.168.1.18/demo/finbot:v17
         ports:
         - containerPort: 80  # Nginx는 80번 포트를 씁니다!
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5  # 파드 시작 후 5초 뒤부터 체크
+          periodSeconds: 5        # 5초마다 체크
