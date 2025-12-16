@@ -25,12 +25,3 @@ spec:
     spec:
       containers:
       - name: finbot
-        # 👇 여기는 건드리지 마세요! (젠킨스가 알아서 바꿉니다)
-        image: 192.168.1.18/demo/finbot:v... 
-        ports:
-        - containerPort: 8080
-        resources:
-          requests:
-            cpu: "100m"
-          limits:
-            cpu: "200m"
