@@ -21,6 +21,6 @@ spec:
       - name: regcred
       containers:
       - name: finbot
-        image: 192.168.1.18/demo/finbot:v4
+        image: 192.168.1.18/demo/finbot:v5
         ports:
         - containerPort: 80
