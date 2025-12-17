@@ -5,15 +5,10 @@ metadata:
   namespace: default
 spec:
   replicas: 2
-
-  # 롤링 업데이트(무중단 배포) 전략을 정의합니다.
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      # **핵심**: 새 Pod가 완전히 뜰 때까지 기존 Pod는 절대 종료하지 않음 (오류 0% 목표)
       maxUnavailable: 0
-
-      # **핵심**: 새로운 버전의 Pod를 한 개 더 추가로 생성할 수 있도록 허용
       maxSurge: 1
   selector:
     matchLabels:
@@ -27,13 +22,12 @@ spec:
       - name: regcred
       containers:
       - name: finbot
-        # 👇 [중요] 님의 Harbor 주소로 변경! (v1은 젠킨스가 나중에 v17, v18로 바꿀겁니다)
-        image: 192.168.1.18/demo/finbot:v7
+        image: 192.168.1.18/demo/finbot:v12
         ports:
-        - containerPort: 80  # Nginx는 80번 포트를 씁니다!
+        - containerPort: 80
         readinessProbe:
           httpGet:
             path: /
             port: 80
-          initialDelaySeconds: 5  # 파드 시작 후 5초 뒤부터 체크
-          periodSeconds: 5        # 5초마다 체크
+          initialDelaySeconds: 5
+          periodSeconds: 5
