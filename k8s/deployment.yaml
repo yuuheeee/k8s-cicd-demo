@@ -25,6 +25,10 @@ spec:
         image: 192.168.1.18/demo/finbot:v12
         ports:
         - containerPort: 80
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 10"]
         readinessProbe:
           httpGet:
             path: /
