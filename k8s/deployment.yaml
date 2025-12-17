@@ -28,7 +28,7 @@ spec:
       containers:
       - name: finbot
         # 👇 [중요] 님의 Harbor 주소로 변경! (v1은 젠킨스가 나중에 v17, v18로 바꿀겁니다)
-        image: 192.168.1.18/demo/finbot:v7
+        image: 192.168.1.18/demo/finbot:v12
         ports:
         - containerPort: 80  # Nginx는 80번 포트를 씁니다!
         readinessProbe:
