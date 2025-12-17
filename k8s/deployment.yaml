@@ -8,6 +8,7 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
+      maxUnavailable: 0 
       maxSurge: 1
   selector:
     matchLabels:
@@ -21,6 +22,16 @@ spec:
       - name: regcred
       containers:
       - name: finbot
-        image: 192.168.1.18/demo/finbot:v2
+        image: 192.168.1.18/demo/finbot:v1
         ports:
         - containerPort: 80
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 10"]
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5  # 파드 시작 후 5초 뒤부터 체크
+          periodSeconds: 5        # 5초마다 체크
