@@ -33,5 +33,5 @@ spec:
           httpGet:
             path: /
             port: 80
-          initialDelaySeconds: 5  # 파드 시작 후 5초 뒤부터 체크
-          periodSeconds: 5        # 5초마다 체크
+          initialDelaySeconds: 5  
+          periodSeconds: 5        
